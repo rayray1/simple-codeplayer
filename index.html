@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Codeplayer</title>
+
+	<meta charset="utf-8">
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+			<!-- CSS -->
+	<link href="main.css" rel="stylesheet">
+	<link href="bootstrap.min.css" rel="stylesheet">
+
+				<!-- JAVASCRIPT -->
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" href="bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+	<div id="container">
+		<div class="navbar navbar-inverse" id="titlebar">
+			<div class="container">
+
+				<div class="navbar-header" id="title">
+					<a href="#" class="navbar-brand" style="font-size:40px;color:#5eabed">CodePlayer</a>
+				</div>
+
+				<div id="runButton">
+				<button type="button" class="btn btn-success" id="run">Run</button>
+				</div>
+	
+			
+				<ul id="menu">
+				<li><button type="button" class="toggle selected btn btn-primary" name="html" style="border:none">HTML</button></li>
+				<li><button type="button" class="toggle btn btn-primary" style="border:none">CSS</button></li>
+				<li><button type="button" class="toggle btn btn-primary" style="border:none">JS</button></li>
+				<li><button type="button" class="toggle selected btn btn-primary" id="run" style="border:none">Result</button></li>
+				</ul>
+
+			</div>
+		</div>
+
+
+
+
+		<!-- <div class="break"></div> -->
+
+		<div class="add">
+
+		<div class="codecontainer" id="HTMLContainer">
+			<div class="codeLabel">HTML</div>
+			<textarea id="htmlCode"><div id="test"></div></textarea>
+		</div>
+
+
+		<div class="codecontainer" id="CSSContainer">
+			<div class="codeLabel">CSS</div>
+			<textarea id="cssCode">html {background-color:#e4dcd5}</textarea>
+		</div>
+
+
+		<div class="codecontainer" id="JSContainer">
+			<div class="codeLabel">JS</div>
+			<textarea id="jsCode">document.getElementById("test").innerHTML="ITS WORKING!!"</textarea>
+		</div>
+
+
+		<div class="codecontainer" id="ResultContainer">
+			<div class="codeLabel">RESULT</div>
+			<iframe id="resultFrame"></iframe>
+		</div>
+
+	</div>
+
+</div>
+
+
+	<!-- main javascript -->
+	<script>
+		var windowHeight=$(window).height();
+		var titleBarHeight = $('#titlebar').height();
+
+		var codecontainerHeight=windowHeight-titleBarHeight;
+
+		$('.codecontainer').height(codecontainerHeight+'px');
+
+		$(".toggle").click(function() {
+			$(this).toggleClass("selected");
+
+			var activeDiv=$(this).html();
+			
+			$("#" + activeDiv + "Container").toggle();
+
+			var showingDivs = $(".codecontainer").filter(function(){
+				return($(this).css("display") != "none");
+
+			}).length;
+
+			var width = 100 / showingDivs;
+
+			$(".codecontainer").css("width", width + "%");
+
+		});
+
+			$("#run").click(function() {
+				$('iframe').contents().find('html').html("<style>"+$
+				('#cssCode').val()+"</style>"+$("#htmlCode").val());
+
+				document.getElementById('resultFrame').contentWindow.eval( $('#jsCode').val() );
+			});
+
+	</script>
+
+</body>
+</html>
